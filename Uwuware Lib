@@ -1612,7 +1612,9 @@ local UIToggle
 local UnlockMouse
 function library:Init()
 	
-	self.base = self.base or self:Create("BigUwu")
+	self.base = self.base or self:Create("ScreenGui", {
+		Name = "BigUwu"
+	})
 	if syn and syn.protect_gui then
 		syn.protect_gui(self.base)
 	elseif get_hidden_gui then
