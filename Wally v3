@@ -1,3 +1,4 @@
-while wait(10) do
+while true do
   game:GetService("StarterGui"):SetCore("SendNotification", {Title = "https://discord.me/togasscripts", Text = "Script Is Currently Under Maintenance, Please Wait For An Update."})
+  wait(10)
 end
