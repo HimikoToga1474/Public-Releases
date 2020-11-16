@@ -1,3 +1,8 @@
+for i,v in pairs(game:GetService("CoreGui"):GetChildren()) do
+    if v:FindFirstChild("Main") then
+        v:Destroy()
+    end
+end
 -- init
 local player = game.Players.LocalPlayer
 local mouse = player:GetMouse()
