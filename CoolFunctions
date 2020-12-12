@@ -1,0 +1,37 @@
+local CoolFunctions = {}
+
+function CoolFunctions:GetMobsInRange(Path, Range)
+    assert(Path~=nil, "CoolFunctions:GetMobsInRange()  |  Expected Instance as argument #1\nHint, it should be path to the folder that contains the mobs you're looking for.")
+    assert(Range~=nil, "CoolFunctions:GetMobsInRange()  |  Expected Number as argument #2\nHint, it should be the range you're looking for mobs in.")
+    local mobs = {}
+    for i,v in pairs(Path:GetChildren()) do
+        if v.ClassName == "Model" and v:FindFirstChildOfClass("Humanoid") and v:FindFirstChild("HumanoidRootPart") then
+            if v:FindFirstChildOfClass("Humanoid").Health > 0 and game.Players.LocalPlayer:DistanceFromCharacter(v:FindFirstChild("HumanoidRootPart").Position) <= Range then
+                if not mobs[v] then
+                    table.insert(mobs, v)
+                end
+            end
+        end
+    end
+    return mobs
+end
+
+function CoolFunctions:GetClosestMob(Path)
+    assert(Path~=nil, "CoolFunctions:GetClosestMob()  |  Expected Instance as argument #1\nHint, it should be path to the folder that contains the mob you're looking for.")
+    local closest;
+    local dist = math.huge
+    for i,v in pairs(Path:GetChildren()) do
+        if v.ClassName == "Model" and v:FindFirstChildOfClass("Humanoid") and v:FindFirstChild("HumanoidRootPart") then
+            if v:FindFirstChildOfClass("Humanoid").Health > 0 then
+                local newDist = game.Players.LocalPlayer:DistanceFromCharacter(v:FindFirstChild("HumanoidRootPart").Position)
+                if newDist < dist then
+                    dist = newDist
+                    closest = v
+                end
+            end
+        end
+    end
+    return closest
+end
+
+return CoolFunctions
