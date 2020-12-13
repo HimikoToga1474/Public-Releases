@@ -34,4 +34,12 @@ function CoolFunctions:GetClosestMob(Path)
     return closest
 end
 
+function CoolFunctions:LeftClick(Instance)
+    firesignal(Instance.MouseButton1Click)    
+end
+
+function CoolFunctions:RightClick(Instance)
+    firesignal(Instance.MouseButton2Click)    
+end
+
 return CoolFunctions
