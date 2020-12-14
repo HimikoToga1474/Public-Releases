@@ -42,4 +42,91 @@ function CoolFunctions:RightClick(Instance)
     firesignal(Instance.MouseButton2Click)    
 end
 
+function CoolFunctions:HookIndex(index,func,returnvalue)
+    assert(index~=nil,"CoolFunctions:HookIndex() | Expected string as argument #1")
+    assert(func~=nil,"CoolFunctions:HookIndex() | Expected function as argument #2")
+    assert(returnvalue~=nil,"CoolFunctions:HookIndex() | Expected something as argument #3")
+    local GameMetatable = getrawmetatable(game)
+    setreadonly(GameMetatable,false)
+    local OldIndex = GameMetatable.__index
+    GameMetatable.__index = newcclosure(function(self,indexed)
+        if indexed == index then
+            func()
+            return returnvalue
+        end
+        return OldIndex(self,indexed)
+    end)
+end
+
+function CoolFunctions:HookNewIndex(index,func,gothrough)
+    assert(index~=nil,"CoolFunctions:HookNewIndex() | Expected string as argument #1")
+    assert(func~=nil,"CoolFunctions:HookNewIndex() | Expected function as argument #2")
+    assert(gothrough~=nil,"CoolFunctions:HookNewIndex() | Expected boolean as argument #3")
+    local GameMetatable = getrawmetatable(game)
+    setreadonly(GameMetatable,false)
+    local OldIndex = GameMetatable.__newindex
+    GameMetatable.__newindex = newcclosure(function(self,indexed,value)
+        if indexed == index then
+            func(value)
+            if gothrough == false then
+                return
+            end
+        end
+        return OldIndex(self,indexed,value)
+    end)
+end
+
+function CoolFunctions:HookNamecall(method,func,gothrough)
+    assert(method~=nil,"CoolFunctions:HookNamecall() | Expected string as argument #1")
+    assert(func~=nil,"CoolFunctions:HookNamecall() | Expected function as argument #2")
+    assert(gothrough~=nil,"CoolFunctions:HookNamecall() | Expected boolean as argument #3")
+    local GameMetatable = getrawmetatable(game)
+    setreadonly(GameMetatable,false)
+    local OldIndex = GameMetatable.__namecall
+    GameMetatable.__namecall = newcclosure(function(self,...)
+        if getnamecallmethod() == method then
+            func(self,{...})
+            if gothrough == false then
+                return
+            end
+        end
+        return OldIndex(self,...)
+    end)
+end
+function CoolFunctions:HookFunction(funcname,func,gothrough)
+    assert(funcname~=nil,"CoolFunctions:HookFunction() | Expected string as argument #1")
+    assert(func~=nil,"CoolFunctions:HookFunction() | Expected function as argument #2")
+    assert(gothrough~=nil,"CoolFunctions:HookFunction() | Expected boolean as argument #3")
+    local Exist = getgenv()[funcname] ~= nil and true or getrenv()[funcname] ~= nil and true or getfenv()[funcname] ~= nil and true 
+    assert(Exist,"CoolFunctions:HookFunction() | Expected valid function as argument #3")
+    if getgenv()[funcname] then
+        local OldFunction = getgenv()[funcname]
+        getgenv()[funcname] = function(...)
+            local args = {...}
+            func(args)
+            if gothrough then
+                return OldFunction(...)
+            end
+        end
+    elseif getrenv()[funcname] then
+        local OldFunction = getrenv()[funcname]
+        getrenv()[funcname] = function(...)
+            local args = {...}
+            func(args)
+            if gothrough then
+                return OldFunction(...)
+            end
+        end
+    else
+        local OldFunction = getfenv()[funcname]
+        getfenv()[funcname] = function(...)
+            local args = {...}
+            func(args)
+            if gothrough then
+                return OldFunction(...)
+            end
+        end
+    end
+end
+
 return CoolFunctions
