@@ -42,20 +42,30 @@ function CoolFunctions:RightClick(Instance)
     firesignal(Instance.MouseButton2Click)    
 end
 
-function CoolFunctions:HookIndex(index,func,returnvalue)
+function CoolFunctions:HookIndex(table,index,func,returnvalue)
     assert(index~=nil,"CoolFunctions:HookIndex() | Expected string as argument #1")
     assert(func~=nil,"CoolFunctions:HookIndex() | Expected function as argument #2")
     assert(returnvalue~=nil,"CoolFunctions:HookIndex() | Expected something as argument #3")
     local GameMetatable = getrawmetatable(game)
     setreadonly(GameMetatable,false)
     local OldIndex = GameMetatable.__index
-    GameMetatable.__index = newcclosure(function(self,indexed)
-        if indexed == index then
-            func()
-            return returnvalue
-        end
-        return OldIndex(self,indexed)
-    end)
+    if table then
+        GameMetatable.__index = newcclosure(function(self,indexed)
+            if self == table and indexed == index then
+                func()
+                return returnvalue
+            end
+            return OldIndex(self,indexed)
+        end)
+    else
+        GameMetatable.__index = newcclosure(function(self,indexed)
+            if indexed == index then
+                func()
+                return returnvalue
+            end
+            return OldIndex(self,indexed)
+        end)
+    end
 end
 
 function CoolFunctions:HookNewIndex(index,func,gothrough)
