@@ -21,7 +21,7 @@ function CoolFunctions:GetClosestMob(Path)
     local closest;
     local dist = math.huge
     for i,v in pairs(Path:GetChildren()) do
-        if v.ClassName == "Model" and v:FindFirstChildOfClass("Humanoid") and v:FindFirstChild("HumanoidRootPart") then
+        if v.ClassName == "Model" and v:FindFirstChildOfClass("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v ~= game.Players.LocalPlayer.Character then
             if v:FindFirstChildOfClass("Humanoid").Health > 0 then
                 local newDist = game.Players.LocalPlayer:DistanceFromCharacter(v:FindFirstChild("HumanoidRootPart").Position)
                 if newDist < dist then
@@ -33,6 +33,7 @@ function CoolFunctions:GetClosestMob(Path)
     end
     return closest
 end
+
 
 function CoolFunctions:LeftClick(Instance)
     firesignal(Instance.MouseButton1Click)    
