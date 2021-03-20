@@ -1,3 +1,35 @@
+do
+	local coreGui = game:GetService("CoreGui")
+	local ui;
+	for i,v in pairs(coreGui:GetChildren()) do
+		if v:FindFirstChild("MainFrame") then
+			ui = v
+		end
+	end
+	if ui then
+		ui:Destroy()
+	end
+end
+local valid_chars = {}
+
+local function set_valid(x, y)
+    for i = string.byte(x), string.byte(y) do
+        table.insert(valid_chars, string.char(i))
+    end
+end
+
+local function random_string(length)
+    local s = {}
+
+    for i = 1, length do s[i] = valid_chars[math.random(1, #valid_chars)] end
+
+    return table.concat(s)
+end
+
+set_valid('a', 'z')
+set_valid('A', 'Z')
+set_valid('0', '9')
+
 local DiscordLib = {}
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
@@ -82,7 +114,7 @@ local function MakeDraggable(topbarobject, object)
 end
 
 local Discord = Instance.new("ScreenGui")
-Discord.Name = "Discord"
+Discord.Name = random_string(20)
 Discord.Parent = game.CoreGui
 Discord.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
