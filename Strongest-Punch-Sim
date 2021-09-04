@@ -1,0 +1,31 @@
+local UI = loadstring(game:HttpGet("https://raw.githubusercontent.com/HimikoToga1474/Public-Releases/master/Discord%20Lib"))()
+
+local Meh = UI:Window("Garbage Game")
+
+local Hub = Meh:Server("Ahegao Hub", "")
+
+local Main = Hub:Channel("Main")
+
+local AutoOrbs = false
+
+Main:Toggle("Auto Grab Orbs", false, function(State)
+    AutoOrbs = State
+end)
+
+spawn(function()
+    while true do
+        if AutoOrbs then
+            local Count = 0
+            local World = game.Players.LocalPlayer.leaderstats:FindFirstChild("WORLD").Value
+            
+            for _,v in pairs(game:GetService("Workspace").Map.Stages.Boosts[World]:GetDescendants()) do
+                if v:FindFirstChild("TouchInterest") and Count < 35 then
+                    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v, 0)
+                    firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v, 1)
+                    Count = Count + 1
+                end
+            end
+        end
+        wait(11)
+    end
+end)()
