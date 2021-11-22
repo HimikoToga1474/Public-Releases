@@ -1,5 +1,3 @@
-print("ily<3")
-
 do
 	local coreGui = game:GetService("CoreGui")
 	local ui;
