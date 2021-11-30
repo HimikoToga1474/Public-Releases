@@ -119,6 +119,7 @@ function UnnamedLib:Window(text)
     local CurrentPage = ""
     local UI_Hidden = false
     local UnnamedUI = Instance.new("ScreenGui")
+    getgenv().OmniUI = UnnamedUI
 
     UnnamedUI.Name = random_string(20)
     UnnamedUI.Parent = game:GetService("CoreGui")
@@ -127,7 +128,6 @@ function UnnamedLib:Window(text)
 --// MainFrame and TopBar
 
     local MainFrame = Instance.new("Frame")
-    getgenv().OmniUI = MainFrame
 
     MainFrame.Name = "MainFrame"
     MainFrame.Parent = UnnamedUI
