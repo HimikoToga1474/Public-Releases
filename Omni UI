@@ -42,7 +42,8 @@ end)
 
 pfp = userinfo["pfp"] or "https://www.roblox.com/headshot-thumbnail/image?userId=".. game.Players.LocalPlayer.UserId .."&width=420&height=420&format=png"
 user =  userinfo["user"] or game.Players.LocalPlayer.Name
-toggle_key = userinfo["toggle_key"] or "T"
+toggle_key = userinfo["toggle_key"] or "RightAlt"
+getgenv().ToggleKey = userinfo["toggle_key"] or "RightAlt"
 
 local function SaveInfo()
 	userinfo["pfp"] = pfp
