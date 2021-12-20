@@ -337,7 +337,7 @@ function DiscordLib:Window(text)
 		end
 	)
 
-	--[[local uitoggled = false
+	local uitoggled = false
 	UserInputService.InputBegan:Connect(
 		function(io, p)
 		    local lol = tostring(getgenv().ToggleKey)
@@ -354,7 +354,7 @@ function DiscordLib:Window(text)
 				end
 			end
 		end
-	)]]
+	)
 
 	CloseBtn.MouseEnter:Connect(
 		function()
