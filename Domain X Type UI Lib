@@ -579,7 +579,6 @@ function LibraryV2:Button(Name, Callback)
     Button = {
         Name = Name,
         Callback = Callback or function() end,
-        Class = "Button",
 
         Asset = GetAsset("Button"):Clone(),
 
@@ -608,7 +607,6 @@ function LibraryV2:Toggle(Name, StartingState, Callback)
         Name = Name,
         State = StartingState,
         Callback = Callback or function() end,
-        Class = "Toggle",
 
         Asset = GetAsset("Toggle"):Clone(),
 
@@ -643,7 +641,6 @@ function LibraryV2:Dropdown(Name, List, Callback)
         Callback = Callback or function() end,
         State = false,
         Debounce = false,
-        Class = "Dropdown",
 
         Asset = GetAsset("Dropdown"):Clone(),
 
@@ -730,7 +727,6 @@ function LibraryV2:Label(Text)
     local Label
     Label = {
         Text = Text,
-        Class = "Label",
 
         Asset = GetAsset("LabelTemplate"):Clone(),
 
@@ -756,7 +752,6 @@ function LibraryV2:Keybind(Name, Starting_Key, Blacklisted_Keys, Callback)
         Blacklist = Blacklisted_Keys or {"W", "A", "S", "D"},
         Callback = Callback or function() end,
         Debounce = false,
-        Class = "Keybind",
 
         Asset = GetAsset("Key"):Clone(),
 
@@ -855,7 +850,6 @@ function LibraryV2:TextBox(Name, Callback)
         Name = Name,
         Callback = Callback or function() end,
         CanCall = true,
-        Class = "TextBox",
 
         Asset = GetAsset("Textbox"):Clone(),
 
@@ -905,7 +899,6 @@ function LibraryV2:Slider(Name, Min, Max, Start, Callback, Use_Decimals)
         Max = Max or 100,
         Value = Start or math.floor((Max/2)+0.5),
         Callback = Callback or function() end,
-        Class = "Slider",
 
         Values = {
             Dragging = false,
@@ -968,33 +961,6 @@ function LibraryV2:Slider(Name, Min, Max, Start, Callback, Use_Decimals)
     end
     )
 
-end
-
-function LibraryV2:Update(a_1, ...)
-    local Class = self.Class;
-
-    if (...) then
-        for i,v in pairs({...}) do
-            self[i] = v
-        end
-    end;
-
-    if not a_1 then return;
-    if Class == "Button" then
-        self.Callback = a_1;
-    elseif Class == "Toggle" then
-        self.State = a_1;
-        self.Update();
-        pcall(self.Callback, self.State)
-    elseif Class == "Label" then
-        self.Text = a_1;
-    elseif Class = "Slider" then       
-        self.Value = a_1;
-    elseif Class = "Dropdown" then
-        self.List = a_1;
-    end
-
-    self.Update();
 end
 
 function LibraryV2:UpdateNotifications()
