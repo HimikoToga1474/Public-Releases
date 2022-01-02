@@ -137,7 +137,7 @@ function LibraryV2.UI(Name)
         Name = Name or "Untitled",
         Tabs = {},
         State = false,
-        ToggleKey = Enum.KeyCode.LeftControl,
+        ToggleKey = Enum.KeyCode[getgenv().ToggleKey] or Enum.KeyCode.RightAlt,
         Debounce = false,
 
         Show_UI = function()
