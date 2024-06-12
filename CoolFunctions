@@ -31,7 +31,7 @@ function CoolFunctions:GetClosestMob(Path)
             end
         end
     end
-    return closest
+    return closest, dist
 end
 
 
